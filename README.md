@@ -1,35 +1,35 @@
 # ML Model Monitor
 
-Production-grade ML model monitoring system for detecting **data drift**, **concept drift**, and **performance degradation** with a real-time Streamlit dashboard.
+A dashboard for catching data/concept drift on a deployed model before it silently degrades. Built this to understand how drift detection actually works in practice, not just in theory.
 
 ## Features
 
-### Drift Detection
-- **PSI (Population Stability Index)** — industry-standard drift metric used in credit/finance ML
-- **Kolmogorov-Smirnov test** — statistical test for distribution shift
-- **KL Divergence** — information-theoretic drift measure
-- **Chi-Square test** — categorical feature drift
-- Color-coded severity: none / low / medium / high
+### Drift detection
+- PSI (Population Stability Index) — the metric most commonly used in finance/credit ML
+- Kolmogorov-Smirnov test for distribution shift
+- KL Divergence
+- Chi-Square test for categorical feature drift
+- Severity buckets: none / low / medium / high
 
-### Performance Monitoring
-- Sliding window metrics over time (accuracy, F1, precision, recall, AUC)
-- Baseline vs production comparison
-- Degradation detection with configurable thresholds
-- Visual timeline with degradation markers
+### Performance monitoring
+- Sliding-window metrics over time (accuracy, F1, precision, recall, AUC)
+- Baseline vs. production comparison
+- Degradation flagging with configurable thresholds
+- Timeline view with degradation markers
 
 ### Alerting
-- `AlertManager` with warning / critical levels
-- Checks: drift severity, performance drop, missing data rate
-- Alert history with timestamps
+- `AlertManager` with warning/critical levels
+- Checks drift severity, performance drop, and missing-data rate
+- Keeps an alert history with timestamps
 
-## Run Locally
+## Running it
 
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
 ```
 
-## Use as a Library
+## Using it as a library
 
 ```python
 import pandas as pd
@@ -47,5 +47,10 @@ mgr.check_drift(results)
 print(mgr.get_summary())
 ```
 
-## Tech Stack
-`Python` `Scikit-learn` `SciPy` `Pandas` `NumPy` `Streamlit` `Matplotlib`
+## Stack
+Python, Scikit-learn, SciPy, Pandas, NumPy, Streamlit, Matplotlib
+
+## Notes / things I'd improve
+- Thresholds (PSI 0.2, etc.) are the commonly cited defaults, not tuned against a real production dataset
+- No persistence layer — everything runs in-memory per session, would need a DB for actual long-term monitoring
+- Alerting is just in-app, no integration with Slack/email/PagerDuty etc.
